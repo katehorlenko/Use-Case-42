@@ -3099,7 +3099,7 @@ Session ID: db4916229bec91b671eb8ebaf5954d6c
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:51)
 	at jdk.proxy2/jdk.proxy2.$Proxy31.click(Unknown Source)
-	at com.usecase42.pages.BingHomePage.navigateToMoreSettings(BingHomePage.java:52)
+	at openHamburgerMenu(BingHomePage.java:52)
 	at com.usecase42.test.BingTests.testNavigateToSettings(BingTests.java:61)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)

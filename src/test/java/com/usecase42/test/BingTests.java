@@ -1,19 +1,23 @@
 package com.usecase42.test;
 
 import com.usecase42.pages.BingHomePage;
+import com.usecase42.pages.ChatPage;
+import com.usecase42.pages.SearchResultPage;
+import com.usecase42.pages.SettingsPage;
 import com.usecase42.util.DriverManager;
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class BingTests {
+import static com.usecase42.util.ScreenshotUtil.attachScreenshot;
 
+public class BingTests {
     private WebDriver driver;
     private BingHomePage bingHomePage;
     private static final Logger logger = LogManager.getLogger(BingTests.class);
@@ -29,52 +33,45 @@ public class BingTests {
     @Test
     @Description("Search for 'weather in Lviv' and verify results.")
     public void testWeatherSearch() {
-        logInfo("Searching for 'weather in Lviv'...");
-        bingHomePage.search("weather in Lviv");
-        verifyWeatherSearchResults();
-    }
+        String textForSearch = "weather in Lviv";
+        logInfo("Searching for: " + textForSearch);
+        SearchResultPage page = bingHomePage.search(textForSearch);
 
-    @Step("Verify weather search results.")
-    private void verifyWeatherSearchResults() {
-        logInfo("Verifying search results...");
-        Assert.assertTrue(driver.getPageSource().contains("weather in Lviv"));
-    }
-
-    @Test
-    @Description("Click on Chat link and verify pop-up.")
-    public void testChatLink() {
-        logInfo("Clicking Chat link...");
-        bingHomePage.clickChatLink();
-        verifyChatPopup();
-    }
-
-    @Step("Verify chat pop-up.")
-    private void verifyChatPopup() {
-        logInfo("Verifying chat pop-up...");
-        Assert.assertTrue(bingHomePage.isChatPopupDisplayed());
+        Assert.assertTrue(page.doesTitleContain(textForSearch));
     }
 
     @Test
     @Description("Navigate to 'More Settings' and verify redirection.")
     public void testNavigateToSettings() {
         logInfo("Navigating to 'More Settings'...");
-        bingHomePage.navigateToMoreSettings();
-        verifySettingsPage();
-    }
+        SettingsPage page = bingHomePage
+                .openHamburgerMenu()
+                .navigateToSettingsPage();
 
-    @Step("Verify settings page.")
-    private void verifySettingsPage() {
         logInfo("Verifying settings page...");
-        Assert.assertTrue(bingHomePage.isSettingsPageTitleDisplayed());
+        Assert.assertTrue(page.isSettingsPageTitleDisplayed(), "Settings page is not opened");
     }
 
-    @AfterMethod
-    public void tearDown() {
-        logInfo("Closing the browser...");
-        DriverManager.closeDriver();
+    @Test
+    @Description("Click on Chat link and verify pop-up.")
+    public void testChatLink() {
+        logInfo("Clicking Chat link...");
+        ChatPage page = bingHomePage.clickChatLink();
+
+        logInfo("Verifying chat pop-up...");
+        Assert.assertTrue(page.isChatPopupDisplayed(), "Chat pop-up should be opened");
     }
 
     private void logInfo(String message) {
         logger.info(message);
+    }
+
+    @AfterMethod
+    public void afterEachTest(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            attachScreenshot(driver);
+        }
+        logInfo("Closing the browser...");
+        DriverManager.closeDriver();
     }
 }
