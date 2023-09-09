@@ -1,9 +1,14 @@
 package com.usecase42.pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BingHomePage {
 
@@ -11,9 +16,6 @@ public class BingHomePage {
 
     @FindBy(name = "q")
     private WebElement searchBox;
-
-    @FindBy(id = "sb_form_go")
-    private WebElement searchButton;
 
     @FindBy(xpath = "//div[@class='icon']/img")
     private WebElement chatLink;
@@ -40,8 +42,7 @@ public class BingHomePage {
     }
 
     public void search(String searchTerm) {
-        searchBox.sendKeys(searchTerm);
-        searchButton.click();
+        searchBox.sendKeys(searchTerm, Keys.ENTER);
     }
 
     public void clickChatLink() {
@@ -49,6 +50,8 @@ public class BingHomePage {
     }
 
     public void navigateToMoreSettings() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         hamburgerMenu.click();
         settingsLink.click();
         moreLink.click();

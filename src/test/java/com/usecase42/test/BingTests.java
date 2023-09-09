@@ -21,6 +21,7 @@ public class BingTests {
     @BeforeMethod
     public void setUp() {
         driver = DriverManager.getDriver();
+        driver.manage().window().maximize();
         driver.get("https://www.bing.com/");
         bingHomePage = new BingHomePage(driver);
     }

@@ -6,11 +6,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class DriverManager {
     private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
-    private DriverManager() {}
+    private DriverManager() {
+    }
 
     public static WebDriver getDriver() {
         if (webDriver.get() == null) {
-            // Example for Chrome, but can be extended for other browsers
             webDriver.set(new ChromeDriver());
         }
         return webDriver.get();
