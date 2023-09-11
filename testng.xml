@@ -5,7 +5,7 @@
     </listeners>
     <test name="Bing Test Cases">
         <classes>
-            <class name="com.usecase42.test.BingTests" />
+            <class name="com.usecase42.tests.BingTest" />
         </classes>
     </test>
 </suite>

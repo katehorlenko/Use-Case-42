@@ -6,14 +6,18 @@
         </Console>
 
         <File name="File" fileName="logs/app.log">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %X{threadName} - %m%n"/>
         </File>
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <!-- Standard logger definitions if required can be added here -->
+
+        <!-- Asynchronous Root logger -->
+        <AsyncRoot level="info">
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />
-        </Root>
+        </AsyncRoot>
     </Loggers>
 </Configuration>
+
